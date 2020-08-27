@@ -17,6 +17,7 @@
 					)
 	var/vr_sprites = list()
 	var/pto_type = null
+	var/prefix = ""
 
 /obj/item/weapon/robot_module/robot/clerical
 	languages = list(
@@ -172,8 +173,11 @@
 	networks = list(NETWORK_SECURITY)
 	pto_type = PTO_SECURITY
 	can_be_pushed = 0
+	prefix = "wide"
 
 /obj/item/weapon/robot_module/robot/knine/New(var/mob/living/silicon/robot/R)
+	if(!R)
+		return ..()
 	src.modules += new /obj/item/weapon/handcuffs/cyborg(src) //You need cuffs to be a proper sec borg!
 	src.modules += new /obj/item/weapon/dogborg/jaws/big(src) //In case there's some kind of hostile mob.
 	src.modules += new /obj/item/weapon/melee/baton/robot(src) //Since the pounce module refused to work, they get a stunbaton instead.
@@ -244,8 +248,11 @@
 					"Mediborg model V-2" = "vale",
 					"Borgi" = "borgi-medi"
 					)
+	prefix = "wide"
 
 /obj/item/weapon/robot_module/robot/medihound/New(var/mob/living/silicon/robot/R)
+	if(!R)
+		return ..()
 	src.modules += new /obj/item/weapon/dogborg/jaws/small(src) //In case a patient is being attacked by carp.
 	src.modules += new /obj/item/device/dogborg/boop_module(src) //Boop the crew.
 	src.modules += new /obj/item/device/healthanalyzer(src) // See who's hurt specificially.
@@ -303,12 +310,15 @@
 	networks = list(NETWORK_SECURITY)
 	pto_type = PTO_SECURITY
 	can_be_pushed = 0
+	prefix = "big"
 	sprites = list(
 					"Standard" = "ert",
 					"Borgi" = "borgi"
 					)
 
 /obj/item/weapon/robot_module/robot/ert/New(var/mob/living/silicon/robot/R)
+	if(!R)
+		return ..()
 	src.modules += new /obj/item/weapon/handcuffs/cyborg(src)
 	src.modules += new /obj/item/weapon/dogborg/jaws/big(src)
 	src.modules += new /obj/item/weapon/melee/baton/robot(src)
@@ -356,8 +366,11 @@
 	channels = list("Service" = 1)
 	pto_type = PTO_CIVILIAN
 	can_be_pushed = 0
+	prefix = "wide"
 
 /obj/item/weapon/robot_module/robot/scrubpup/New(var/mob/living/silicon/robot/R)
+	if(!R)
+		return ..()
 	src.modules += new /obj/item/weapon/dogborg/jaws/small(src)
 	src.modules += new /obj/item/device/dogborg/boop_module(src)
 	src.modules += new /obj/item/pupscrubber(src)
@@ -441,8 +454,11 @@
 	channels = list("Science" = 1)
 	pto_type = PTO_SCIENCE
 	can_be_pushed = 0
+	prefix = "wide"
 
 /obj/item/weapon/robot_module/robot/science/New(var/mob/living/silicon/robot/R)
+	if(!R)
+		return ..()
 	src.modules += new /obj/item/weapon/dogborg/jaws/small(src)
 	src.modules += new /obj/item/device/dogborg/boop_module(src)
 	src.modules += new /obj/item/weapon/gripper/research(src)
@@ -518,8 +534,11 @@
 	pto_type = PTO_ENGINEERING
 	subsystems = list(/mob/living/silicon/proc/subsystem_power_monitor)
 	can_be_pushed = 0
+	prefix = "wide"
 
 /obj/item/weapon/robot_module/robot/engiedog/New(var/mob/living/silicon/robot/R)
+	if(!R)
+		return ..()
 	src.modules += new /obj/item/borg/sight/meson(src)
 	src.modules += new /obj/item/weapon/weldingtool/electric/mounted/cyborg(src)
 	src.modules += new /obj/item/weapon/tool/screwdriver/cyborg(src)
@@ -665,10 +684,13 @@
 	channels = list("Service" = 1)
 	pto_type = PTO_CIVILIAN
 	can_be_pushed = 0
+	prefix = "wide"
 
 
 // In a nutshell, basicly service/butler robot but in dog form. - Port from CitadelRP
 /obj/item/weapon/robot_module/robot/clerical/brodog/New(var/mob/living/silicon/robot/R)
+	if(!R)
+		return ..()
 	src.modules += new /obj/item/weapon/gripper/service(src)
 	src.modules += new /obj/item/weapon/reagent_containers/glass/bucket(src)
 	src.modules += new /obj/item/weapon/material/minihoe(src)
@@ -737,8 +759,11 @@
 	channels = list("Supply" = 1)
 	pto_type = PTO_CARGO
 	can_be_pushed = 0
+	prefix = "wide"
 
 /obj/item/weapon/robot_module/robot/kmine/New(var/mob/living/silicon/robot/R)
+	if(!R)
+		return ..()
 	src.modules += new /obj/item/borg/sight/material(src)
 	src.modules += new /obj/item/weapon/tool/wrench/cyborg(src)
 	src.modules += new /obj/item/weapon/tool/screwdriver/cyborg(src)

@@ -186,7 +186,10 @@ GLOBAL_LIST_EMPTY(asset_datums)
 	for (var/icon_state_name in icon_states(I))
 		for (var/direction in directions)
 			var/prefix2 = (directions.len > 1) ? "[dir2text(direction)]-" : ""
-			Insert("[prefix][prefix2][icon_state_name]", I, icon_state=icon_state_name, dir=direction)
+			var/sprite_name = "[prefix][prefix2][icon_state_name]"
+			if(sprites[sprite_name])
+				continue
+			Insert(sprite_name, I, icon_state=icon_state_name, dir=direction)
 
 /datum/asset/spritesheet/proc/css_tag()
 	return {"<link rel="stylesheet" href="[css_filename()]" />"}

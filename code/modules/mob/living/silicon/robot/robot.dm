@@ -96,6 +96,8 @@
 		/mob/living/silicon/robot/proc/robot_checklaws
 	)
 
+	var/datum/tgui_module/module_selector/module_selector = null
+
 /mob/living/silicon/robot/New(loc,var/unfinished = 0)
 	spark_system = new /datum/effect/effect/system/spark_spread()
 	spark_system.set_up(5, 0, src)
@@ -254,8 +256,14 @@
 	updateicon()
 	return module_sprites
 
+
 /mob/living/silicon/robot/proc/pick_module()
 	if(module)
+		return
+	var/new_or_old = input(usr, "New or Old Module Selection?", "Module Selection", "New") as anything in list("New", "Old")
+	if(new_or_old == "New")
+		module_selector = new(src)
+		module_selector.tgui_interact(usr)
 		return
 	var/list/modules = list()
 	//VOREStatation Edit Start: shell restrictions

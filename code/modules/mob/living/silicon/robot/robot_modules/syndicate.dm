@@ -76,6 +76,8 @@
 
 /obj/item/weapon/robot_module/robot/syndicate/mechanist/New(var/mob/living/silicon/robot/R)
 	..()
+	if(!R)
+		return
 	// General engineering/hacking.
 	src.modules += new /obj/item/borg/sight/meson(src)
 	src.modules += new /obj/item/weapon/weldingtool/electric/mounted/cyborg(src)
@@ -144,6 +146,8 @@
 
 /obj/item/weapon/robot_module/robot/syndicate/combat_medic/New(var/mob/living/silicon/robot/R)
 	..()
+	if(!R)
+		return
 	src.modules += new /obj/item/borg/sight/hud/med(src)
 	src.modules += new /obj/item/device/healthanalyzer/advanced(src)
 	src.modules += new /obj/item/weapon/reagent_containers/borghypo/merc(src)

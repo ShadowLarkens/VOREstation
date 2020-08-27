@@ -285,6 +285,14 @@
 		InsertAll("", each, global.alldirs)
 	..()
 
+/datum/asset/spritesheet/module_selection
+	name = "robotModule"
+
+/datum/asset/spritesheet/module_selection/register()
+	for(var/each in list('icons/mob/robots.dmi', 'icons/mob/robots_vr.dmi', 'icons/mob/widerobot_vr.dmi', 'icons/mob/64x64robot_vr.dmi')) // VOREStation Edit: More robot sprites
+		InsertAll("", each, global.alldirs)
+	..()
+
 //VOREStation Add
 /datum/asset/spritesheet/vore
 	name = "vore"

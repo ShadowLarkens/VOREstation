@@ -39,6 +39,8 @@ var/global/list/robot_modules = list(
 
 /obj/item/weapon/robot_module/New(var/mob/living/silicon/robot/R)
 	..()
+	if(!istype(R))
+		return
 	R.module = src
 
 	add_camera_networks(R)
@@ -167,8 +169,10 @@ var/global/list/robot_modules = list(
 			)
 
 // Cyborgs (non-drones), default loadout. This will be given to every module.
-/obj/item/weapon/robot_module/robot/New()
+/obj/item/weapon/robot_module/robot/New(mob/living/silicon/robot/R)
 	..()
+	if(!R)
+		return
 	src.modules += new /obj/item/device/flash/robot(src)
 	src.modules += new /obj/item/weapon/tool/crowbar/cyborg(src)
 	src.modules += new /obj/item/weapon/extinguisher(src)
@@ -723,8 +727,10 @@ var/global/list/robot_modules = list(
 					"Pyralis" = "Glitterfly-Research"
 					)
 
-/obj/item/weapon/robot_module/robot/research/New()
+/obj/item/weapon/robot_module/robot/research/New(mob/living/silicon/robot/R)
 	..()
+	if(!R)
+		return
 	src.modules += new /obj/item/weapon/portable_destructive_analyzer(src)
 	src.modules += new /obj/item/weapon/gripper/research(src)
 	src.modules += new /obj/item/weapon/gripper/circuit(src)

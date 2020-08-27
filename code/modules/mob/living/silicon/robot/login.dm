@@ -9,6 +9,7 @@
 	client.set_hotkeys_macro("borgmacro", "borghotkeymode")
 
 	// Forces synths to select an icon relevant to their module
-	if(!icon_selected)
-		choose_icon(icon_selection_tries, module_sprites)
+	if(!icon_selected || module_selector)
+		module_selector.tgui_interact(src)
+		choose_icon(icon_selection_tries, module_sprites) // TGUITODO: Remove
 	plane_holder.set_vis(VIS_AUGMENTED, TRUE) //VOREStation Add - ROBOT VISION IS AUGMENTED
