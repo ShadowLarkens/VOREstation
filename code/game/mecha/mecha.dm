@@ -1929,6 +1929,7 @@
 	if(usr!=src.occupant)
 		return
 	//pr_update_stats.start()
+	tgui_interact(usr)
 	src.occupant << browse(src.get_stats_html(), "window=exosuit")
 	return
 

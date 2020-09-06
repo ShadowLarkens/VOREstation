@@ -1,0 +1,15 @@
+@use '../base.scss';
+
+.MechaRow .LabeledList__cell {
+  padding-top: 0;
+  padding-bottom: 0;
+}
+
+.MechaRow .LabeledList__label {
+  font-weight: bold;
+}
+
+.MechaButton {
+  outline: none !important;
+  border: none !important;
+}
