@@ -5,11 +5,11 @@
  *
  * Has a limited amount of power.
  */
-/obj/item/integrated_circuit
+/obj/item/wiremod_integrated_circuit
 	name = "integrated circuit"
 	icon = 'icons/obj/module.dmi'
 	icon_state = "integrated_circuit"
-	inhand_icon_state = "electronic"
+	item_state = "electronic"
 
 	/// The name that appears on the shell.
 	var/display_name = ""
@@ -18,7 +18,7 @@
 	var/label_max_length = 24
 
 	/// The power of the integrated circuit
-	var/obj/item/stock_parts/cell/cell
+	var/obj/item/weapon/cell/cell
 
 	/// The shell that this circuitboard is attached to. Used by components.
 	var/atom/movable/shell
@@ -30,13 +30,13 @@
 	var/on = FALSE
 
 	/// The ID that is authorized to unlock/lock the shell so that the circuit can/cannot be removed.
-	var/datum/weakref/owner_id
+	var/weakref/owner_id
 
-/obj/item/integrated_circuit/loaded/Initialize()
+/obj/item/wiremod_integrated_circuit/loaded/Initialize()
 	. = ..()
-	cell = new /obj/item/stock_parts/cell/high(src)
+	cell = new /obj/item/weapon/cell/high(src)
 
-/obj/item/integrated_circuit/Destroy()
+/obj/item/wiremod_integrated_circuit/Destroy()
 	for(var/obj/item/circuit_component/to_delete in attached_components)
 		remove_component(to_delete)
 		qdel(to_delete)
@@ -44,39 +44,39 @@
 	QDEL_NULL(cell)
 	return ..()
 
-/obj/item/integrated_circuit/examine(mob/user)
+/obj/item/wiremod_integrated_circuit/examine(mob/user)
 	. = ..()
 	if(cell)
 		. += "<span class='notice'>The charge meter reads [cell ? round(cell.percent(), 1) : 0]%.</span>"
 	else
 		. += "<span class='notice'>There is no power cell installed.</span>"
 
-/obj/item/integrated_circuit/attackby(obj/item/I, mob/living/user, params)
+/obj/item/wiremod_integrated_circuit/attackby(obj/item/I, mob/living/user, params)
 	. = ..()
 	if(istype(I, /obj/item/circuit_component))
 		add_component(I, user)
 		return
 
-	if(istype(I, /obj/item/stock_parts/cell))
+	if(istype(I, /obj/item/weapon/cell))
 		if(cell)
 			balloon_alert(user, "there already is a cell inside!")
 			return
-		if(!user.transferItemToLoc(I, src))
+		if(!user.unEquip(I, target = src))
 			return
 		cell = I
 		I.add_fingerprint(user)
 		user.visible_message("<span class='notice'>[user] inserts a power cell into [src].</span>", "<span class='notice'>You insert the power cell into [src].</span>")
 		return
 
-	if(istype(I, /obj/item/card/id))
+	if(istype(I, /obj/item/weapon/card/id))
 		balloon_alert(user, "owner id set for [I]")
-		owner_id = WEAKREF(I)
+		owner_id = weakref(I)
 		return
 
-	if(I.tool_behaviour == TOOL_SCREWDRIVER)
+	if(I.has_tool_quality(TOOL_SCREWDRIVER))
 		if(!cell)
 			return
-		I.play_tool_sound(src)
+		// I.play_tool_sound(src) // TODO
 		user.visible_message("<span class='notice'>[user] unscrews the power cell from [src].</span>", "<span class='notice'>You unscrew the power cell from [src].</span>")
 		cell.forceMove(drop_location())
 		cell = null
@@ -90,7 +90,7 @@
  * Arguments:
  * * new_shell - The new shell to register.
  */
-/obj/item/integrated_circuit/proc/set_shell(atom/movable/new_shell)
+/obj/item/wiremod_integrated_circuit/proc/set_shell(atom/movable/new_shell)
 	remove_current_shell()
 	on = TRUE
 	shell = new_shell
@@ -106,7 +106,7 @@
 /**
  * Unregisters the current shell attached to this circuit.
  */
-/obj/item/integrated_circuit/proc/remove_current_shell()
+/obj/item/wiremod_integrated_circuit/proc/remove_current_shell()
 	SIGNAL_HANDLER
 	if(!shell)
 		return
@@ -122,7 +122,7 @@
  *
  * Once the component is added, the ports can be attached to other components
  */
-/obj/item/integrated_circuit/proc/add_component(obj/item/circuit_component/to_add, mob/living/user)
+/obj/item/wiremod_integrated_circuit/proc/add_component(obj/item/circuit_component/to_add, mob/living/user)
 	if(to_add.parent)
 		return
 
@@ -131,7 +131,7 @@
 
 	var/success = FALSE
 	if(user)
-		success = user.transferItemToLoc(to_add, src)
+		success = user.unEquip(to_add, target = src)
 	else
 		success = to_add.forceMove(src)
 
@@ -148,7 +148,7 @@
 	if(shell)
 		to_add.register_shell(shell)
 
-/obj/item/integrated_circuit/proc/component_move_handler(obj/item/circuit_component/source)
+/obj/item/wiremod_integrated_circuit/proc/component_move_handler(obj/item/circuit_component/source)
 	SIGNAL_HANDLER
 	if(source.loc != src)
 		remove_component(source)
@@ -158,7 +158,7 @@
  *
  * This removes all connects between the ports
  */
-/obj/item/integrated_circuit/proc/remove_component(obj/item/circuit_component/to_remove)
+/obj/item/wiremod_integrated_circuit/proc/remove_component(obj/item/circuit_component/to_remove)
 	if(shell)
 		to_remove.unregister_shell(shell)
 
@@ -168,15 +168,15 @@
 	to_remove.parent = null
 	SStgui.update_uis(src)
 
-/obj/item/integrated_circuit/get_cell()
+/obj/item/wiremod_integrated_circuit/get_cell()
 	return cell
 
-/obj/item/integrated_circuit/ui_assets(mob/user)
+/obj/item/wiremod_integrated_circuit/ui_assets(mob/user)
 	return list(
 		get_asset_datum(/datum/asset/simple/circuit_assets)
 	)
 
-/obj/item/integrated_circuit/ui_data(mob/user)
+/obj/item/wiremod_integrated_circuit/tgui_data(mob/user)
 	. = list()
 	.["components"] = list()
 	for(var/obj/item/circuit_component/component as anything in attached_components)
@@ -213,17 +213,17 @@
 
 	.["display_name"] = display_name
 
-/obj/item/integrated_circuit/ui_host(mob/user)
+/obj/item/wiremod_integrated_circuit/tgui_host(mob/user)
 	if(shell)
 		return shell
 	return ..()
 
-/obj/item/integrated_circuit/ui_state(mob/user)
+/obj/item/wiremod_integrated_circuit/tgui_state(mob/user)
 	if(!shell)
-		return GLOB.hands_state
-	return GLOB.physical_obscured_state
+		return GLOB.tgui_hands_state
+	return GLOB.tgui_physical_state // TODO? physical_obscured_state
 
-/obj/item/integrated_circuit/ui_interact(mob/user, datum/tgui/ui)
+/obj/item/wiremod_integrated_circuit/tgui_interact(mob/user, datum/tgui/ui)
 	ui = SStgui.try_update_ui(user, src, ui)
 	if(!ui)
 		ui = new(user, src, "IntegratedCircuit", name)
@@ -232,7 +232,7 @@
 
 #define WITHIN_RANGE(id, table) (id >= 1 && id <= length(table))
 
-/obj/item/integrated_circuit/ui_act(action, list/params)
+/obj/item/wiremod_integrated_circuit/tgui_act(action, list/params)
 	. = ..()
 	if(.)
 		return
@@ -325,19 +325,20 @@
 				port.set_input(null)
 				return TRUE
 
-			if(params["marked_atom"])
-				if(port.datatype != PORT_TYPE_ATOM && port.datatype != PORT_TYPE_ANY)
-					return
-				var/obj/item/multitool/circuit/marker = usr.get_active_held_item()
-				if(!istype(marker))
-					return TRUE
-				if(!marker.marked_atom)
-					port.set_input(null)
-					marker.say("Cleared port ('[port.name]')'s value.")
-					return TRUE
-				marker.say("Updated port ('[port.name]')'s value to the marked entity.")
-				port.set_input(marker.marked_atom)
-				return TRUE
+			// TODO
+			// if(params["marked_atom"])
+			// 	if(port.datatype != PORT_TYPE_ATOM && port.datatype != PORT_TYPE_ANY)
+			// 		return
+			// 	var/obj/item/multitool/circuit/marker = usr.get_active_hand()
+			// 	if(!istype(marker))
+			// 		return TRUE
+			// 	if(!marker.marked_atom)
+			// 		port.set_input(null)
+			// 		marker.say("Cleared port ('[port.name]')'s value.")
+			// 		return TRUE
+			// 	marker.say("Updated port ('[port.name]')'s value to the marked entity.")
+			// 	port.set_input(marker.marked_atom)
+			// 	return TRUE
 
 			var/user_input = params["input"]
 			switch(port.datatype)

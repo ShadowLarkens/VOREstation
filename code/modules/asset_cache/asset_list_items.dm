@@ -543,3 +543,9 @@
 		"tether_nanomap_z14.png"			= 'icons/_nanomaps/tether_nanomap_z14.png',
 		// VOREStation Edit End
 	)
+
+
+/datum/asset/simple/circuit_assets
+	assets = list(
+		"grid_background.png" = 'icons/ui_icons/tgui/grid_background.png'
+	)

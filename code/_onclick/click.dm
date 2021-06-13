@@ -282,6 +282,8 @@
 	return
 
 /atom/proc/AltClick(var/mob/user)
+	if(SEND_SIGNAL(src, COMSIG_CLICK_ALT, user) & COMPONENT_CANCEL_CLICK_ALT)
+		return
 	var/turf/T = get_turf(src)
 	if(T && user.TurfAdjacent(T))
 		user.ToggleTurfTab(T)

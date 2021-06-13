@@ -11,13 +11,13 @@
 	name = COMPONENT_DEFAULT_NAME
 	icon = 'icons/obj/module.dmi'
 	icon_state = "component"
-	inhand_icon_state = "electronic"
+	item_state = "electronic"
 
 	/// The name of the component shown on the UI
 	var/display_name = "Generic"
 
 	/// The integrated_circuit that this component is attached to.
-	var/obj/item/integrated_circuit/parent
+	var/obj/item/wiremod_integrated_circuit/parent
 
 	/// A list that contains the outpurt ports on this component
 	/// Used to connect between the ports
@@ -176,7 +176,7 @@
 	if(!parent?.on)
 		return TRUE
 
-	var/obj/item/stock_parts/cell/cell = parent.get_cell()
+	var/obj/item/weapon/cell/cell = parent.get_cell()
 	if(!cell?.use(power_usage_per_input))
 		return TRUE
 

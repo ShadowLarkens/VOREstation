@@ -690,3 +690,11 @@ datum/projectile_data
 			hear |= recursive_mob_check(A, hear, 3, 1, 0, 1)
 
 	return hear
+
+/// Removes an image from a client's `.images`. Useful as a callback.
+/proc/remove_image_from_client(image/image, client/remove_from)
+	remove_from?.images -= image
+
+/proc/remove_images_from_clients(image/I, list/show_to)
+	for(var/client/C in show_to)
+		C.images -= I

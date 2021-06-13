@@ -527,3 +527,8 @@ proc/TextPreview(var/string,var/len=40)
 	paper_text = replacetext(paper_text, "<br>", "\n")
 	paper_text = strip_html_properly(paper_text) // Get rid of everything else entirely.
 	return paper_text
+
+//Runs sanitize and strip_html_simple
+//I believe strip_html_simple() is required to run first to prevent '<' from displaying as '&lt;' after sanitize() calls byond's html_encode()
+/proc/strip_html(t,limit=MAX_MESSAGE_LEN)
+	return copytext((sanitize(strip_html_simple(t))),1,limit)

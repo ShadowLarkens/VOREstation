@@ -8,12 +8,14 @@
 	name = "controller"
 	icon = 'icons/obj/wiremod.dmi'
 	icon_state = "setup_small_calc"
-	inhand_icon_state = "electronic"
-	worn_icon_state = "electronic"
-	lefthand_file = 'icons/mob/items/devices_lefthand.dmi'
-	righthand_file = 'icons/mob/items/devices_righthand.dmi'
-	light_system = MOVABLE_LIGHT_DIRECTIONAL
-	light_on = FALSE
+	item_state = "electronic"
+	item_icons = list(
+		slot_l_hand_str = 'icons/mob/items/devices_lefthand.dmi',
+		slot_r_hand_str = 'icons/mob/items/devices_righthand.dmi',
+		slot_w_uniform_str = "electronic"
+	)
+	// light_system = MOVABLE_LIGHT_DIRECTIONAL
+	// light_on = FALSE
 
 /obj/item/controller/Initialize()
 	. = ..()
@@ -44,12 +46,10 @@
 /obj/item/circuit_component/controller/register_shell(atom/movable/shell)
 	RegisterSignal(shell, COMSIG_ITEM_ATTACK_SELF, .proc/send_trigger)
 	RegisterSignal(shell, COMSIG_CLICK_ALT, .proc/send_alternate_signal)
-	RegisterSignal(shell, COMSIG_CLICK_RIGHT, .proc/send_right_signal)
 
 /obj/item/circuit_component/controller/unregister_shell(atom/movable/shell)
 	UnregisterSignal(shell, list(
 		COMSIG_ITEM_ATTACK_SELF,
-		COMSIG_CLICK_RIGHT,
 		COMSIG_CLICK_ALT,
 	))
 
@@ -74,11 +74,3 @@
 	source.balloon_alert(user, "clicked alternate button")
 	playsound(source, get_sfx("terminal_type"), 25, FALSE)
 	alt.set_output(COMPONENT_SIGNAL)
-
-/obj/item/circuit_component/controller/proc/send_right_signal(atom/source, mob/user)
-	SIGNAL_HANDLER
-	if(!user.Adjacent(source))
-		return
-	source.balloon_alert(user, "clicked extra button")
-	playsound(source, get_sfx("terminal_type"), 25, FALSE)
-	right.set_output(COMPONENT_SIGNAL)

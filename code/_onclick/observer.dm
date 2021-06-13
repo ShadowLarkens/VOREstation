@@ -48,6 +48,8 @@
 
 // Oh by the way this didn't work with old click code which is why clicking shit didn't spam you
 /atom/proc/attack_ghost(mob/observer/dead/user as mob)
+	if(SEND_SIGNAL(src, COMSIG_ATOM_ATTACK_GHOST, user))
+		return TRUE
 	if(user.client && user.client.inquisitive_ghost)
 		user.examinate(src)
 	return

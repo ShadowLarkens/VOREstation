@@ -137,6 +137,7 @@ What is the naming convention for planes or layers?
 	#define EMISSIVE_LAYER_UNBLOCKABLE 9999
 
 #define PLANE_RUNECHAT			9
+#define PLANE_BALLOONCHAT		10
 
 #define PLANE_GHOSTS			10 //Spooooooooky ghooooooosts
 #define PLANE_AI_EYE			11 //The AI eye lives here
