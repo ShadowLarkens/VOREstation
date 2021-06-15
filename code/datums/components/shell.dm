@@ -142,7 +142,7 @@
 		source.balloon_alert(user, "it's locked!")
 		return COMPONENT_BLOCK_TOOL_ATTACK
 
-	attached_circuit.interact(user)
+	attached_circuit.tgui_interact(user)
 	return COMPONENT_BLOCK_TOOL_ATTACK
 
 /**
