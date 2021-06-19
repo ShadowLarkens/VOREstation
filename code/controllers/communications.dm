@@ -111,6 +111,10 @@ var/const/SYND_FREQ = 1213
 var/const/RAID_FREQ	= 1277
 var/const/ENT_FREQ	= 1461 //entertainment frequency. This is not a diona exclusive frequency.
 
+// Signaller
+var/const/SIGNALER_FREQ = 1457
+var/const/DEFAULT_SIGNALER_CODE = 30
+
 // department channels
 var/const/PUB_FREQ = 1459
 var/const/SEC_FREQ = 1359
